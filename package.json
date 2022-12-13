@@ -1,0 +1,21 @@
+{
+  "name": "onne_gasolinera",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "mssql": "^4.3.7",
+    "socket.io": "^2.3.0"
+  },
+  "scripts": {
+    "start": "node ./server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlexisBurgosGtm/onne_gas.git"
+  },
+  "author": "Alexis Burgos",
+  "license": "ISC"
+}
