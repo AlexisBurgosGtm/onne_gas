@@ -39,7 +39,12 @@ function getView(){
                         <a class="nav-link negrita text-danger" id="tab-cantidad" data-toggle="tab" href="#cantidad" role="tab" aria-controls="home" aria-selected="true">
                             <i class="fal fa-comments"></i></a>
                     </li> 
-                    <li class="nav-item">
+                  
+                     <li class="nav-item">
+                        <a class="nav-link negrita text-info" id="tab-det-pedido" data-toggle="tab" href="#det_pedido" role="tab" aria-controls="home" aria-selected="true">
+                            <i class="fal fa-edit"></i></a>
+                    </li>
+                      <li class="nav-item">
                         <a class="nav-link negrita text-info" id="tab-cobrar" data-toggle="tab" href="#cobrar" role="tab" aria-controls="home" aria-selected="true">
                             <i class="fal fa-edit"></i></a>
                     </li>
@@ -181,16 +186,6 @@ function getView(){
 
             </div>
         </div>  
-            `
-        },
-        btnCobrar :()=>{
-            return `
-            <div id="btn-bottom-r">
-                <button class="btn btn-outline-danger btn-lg waves-themed waves-effect shadow" id="btnCobrar">
-                    <i class="fal fa-search"></i>
-                    COBRAR
-                </button>
-            </div>
             `
         },
         modalBusquedaProductos :()=>{
@@ -439,9 +434,8 @@ function getView(){
 
                                         <div class="row">
                                             <div class="col-5">
-                                                <button class="btn btn-outline-secondary btn-lg  btn-pills btn-block waves-effect waves-themed" data-dismiss="modal" id="btnEntregaCancelar">
-                                                    <i class="fal fa-ban mr-1"></i>
-                                                    Cancelar
+                                                <button class="btn btn-secondary btn-xl btn-circle shadow hand" id="btnEntregaCancelar">
+                                                    <i class="fal fa-arrow-left"></i>
                                                 </button>                                
                                             </div>
                 
@@ -489,6 +483,10 @@ function getView(){
             <h3 class="negrita text-danger">Seleccione un Producto</h3>
             <hr class="solid">
             <div class="table-responsive p-4" id="tblProductos"></div>
+
+             <button class="btn btn-circle btn-xl btn-info btn-bottom-mr  shadow hand" id="btnGotoPedido">
+                <i class="fal fa-edit"></i>
+            </button>  
 
             <button class="btn btn-circle btn-xl btn-secondary btn-bottom-r  shadow hand" id="btnAtrasProductos">
                 <i class="fal fa-arrow-left"></i>
@@ -681,8 +679,8 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
                funciones.AvisoError('Especifique el cliente a quien se carga la venta');
            }else{
                funciones.ObtenerUbicacion('lbDocLat','lbDocLong');
-                $('#ModalFinalizarPedido').modal('show');   
-                                
+                //$('#ModalFinalizarPedido').modal('show');   
+                document.getElementById('tab-cobrar').click();                
            }
        }
        
@@ -734,17 +732,25 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
     //iniciarModalCantidad();
     addEventsModalCambioCantidad();
 
+
+    document.getElementById('btnEntregaCancelar').addEventListener('click',()=>{
+        document.getElementById('tab-det-pedido').click();
+    })
+
     //carga los datos del cliente
     document.getElementById('txtNit').value = nit; //codclie
     document.getElementById('txtNitDocumento').value = nitdoc;
     document.getElementById('txtNombre').value = nombre;
     document.getElementById('txtDireccion').value = direccion;
+    GlobalSelectedCodCliente = nit;
     
     //inicia los eventos de la ventana Cantidad al agregar productos
     fcnIniciarModalCantidadProductos();
 
     document.getElementById('btnAgregarProd').addEventListener('click',()=>{
-        $('#ModalBusqueda').modal('show');
+        //$('#ModalBusqueda').modal('show');
+        document.getElementById('tab-pedido').click();
+
     });
 
     document.getElementById('btnAtrasProductos').addEventListener('click',()=>{
@@ -755,6 +761,10 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
         document.getElementById('tab-pedido').click();
     });
 
+
+    document.getElementById('btnGotoPedido').addEventListener('click',()=>{
+        document.getElementById('tab-det-pedido').click();
+    });
 
     funciones.slideAnimationTabs();
 
@@ -793,8 +803,6 @@ function CargarGridBombas(){
     container.innerHTML = strData;
 
 };
-
-
 
 
 function getCodBomba(cod,des){
@@ -1103,14 +1111,14 @@ async function fcnAgregarProductoVenta(codprod,desprod,codmedida,cantidad,equiva
                 insertTempVentas(data)
                 .then(()=>{                    
       
-                        //$('#ModalCantidadProducto').modal('hide') //MARCADOR
-                        document.getElementById('tab-pedido').click();
+                   
+                        document.getElementById('tab-det-pedido').click();
 
                         funciones.showToast('Agregado: ' + desprod);
                         
                         fcnCargarGridTempVentas('tblGridTempVentas');
                         
-                        document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>Agregar`;
+                        document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>`;
                         document.getElementById('btnAgregarProducto').disabled = false;
                         let txbusqueda = document.getElementById('txtBusqueda');
                         txbusqueda.value = '';
@@ -1118,14 +1126,14 @@ async function fcnAgregarProductoVenta(codprod,desprod,codmedida,cantidad,equiva
                   })
                   .catch(
                       ()=>{
-                        document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>Agregar`;
+                        document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>`;
                         document.getElementById('btnAgregarProducto').disabled = false;
                         funciones.AvisoError('No se pudo agregar este producto a la venta actual');
                       }
                   )
         
         } catch (error) {
-            document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>Agregar`;
+            document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>`;
             document.getElementById('btnAgregarProducto').disabled = false;
         }
    
@@ -1440,7 +1448,7 @@ async function fcnEliminarTempVentas(usuario){
 
 async function fcnNuevoPedido(){
     
-    classNavegar.inicio('VENDEDOR');
+    classNavegar.ventas('0','CONSUMIDOR FINAL','CIUDAD','CF');
     
 };
 
@@ -1571,8 +1579,6 @@ async function fcnFinalizarPedido(){
                 JSONPRODUCTOS:JSON.stringify(docproductos_ped)
         };
 
-        //UNA VEZ OBTENIDO EL DETALLE, PROCEDE A GUARDARSE O ENVIARSE
-
         //OBTIENE EL CORRELATIVO DEL DOCUMENTO
         classTipoDocumentos.getCorrelativoDocumento('PED',GlobalCoddoc)
         .then((correlativo)=>{
@@ -1616,39 +1622,18 @@ async function fcnFinalizarPedido(){
                             long:longdoc,
                             hora:hora,
                             nitdoc:nitdocumento,
-                            fecha_operacion:funciones.getFecha()
+                            fecha_operacion:funciones.getFecha(),
+                            codembarque:GlobalSelectedCodBomba
                         })
                         .then(async(response) => {
                             const data = response.data;
                             if (data.rowsAffected[0]==0){
                                 
-                                setLog(`<label class="text-info">No se logró Enviar este pedido, se intentará guardarlo en el teléfono</label>`,'rootWait');
-                                                    
-                                insertVenta(datospedido)
-                                .then(async()=>{   
-                                    hideWaitForm();
-                                    document.getElementById('btnEntregaCancelar').click();                                                                                       
-                                    //actualiza la ubicación del empleado
-                                    await classEmpleados.updateMyLocation();           
-                                    //actualiza la última venta del cliente
-                                    apigen.updateClientesLastSale(nit,'VENTA');            
-                                    //elimina el temp ventas asociado al empleado
-                                    deleteTempVenta(GlobalUsuario)
-                                                                    
-                                    funciones.showToast('El pedido será guardado localmente, recuerde enviarlo');
-                                            
-                                    //prepara todo para un nuevo pedido
-                                    fcnNuevoPedido();
-                                })
-                                .catch(()=>{
-                                    hideWaitForm();    
-                                    
                                     document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-paper-plane mr-1"></i>Solicitar Factura';
                                     document.getElementById('btnFinalizarPedido').disabled = false;
 
                                     funciones.AvisoError('No se pudo guardar este pedido');
-                                })
-
+                                
                             }else{
 
                                 setLog(`<label class="text-info">Pedido enviado, generando factura FEL...</label>`,'rootWait');
@@ -1658,7 +1643,7 @@ async function fcnFinalizarPedido(){
                                     hideWaitForm();
 
                                     funciones.Aviso('Factura Generada Exitosamente !!!')
-                                    document.getElementById('btnEntregaCancelar').click();                                                           
+                                    //document.getElementById('btnEntregaCancelar').click();                                                           
                                     //actualiza la ubicación del empleado
                                     classEmpleados.updateMyLocation();            
                                     //actualiza la última venta del cliente
@@ -1676,8 +1661,8 @@ async function fcnFinalizarPedido(){
 
                                     funciones.AvisoError('No se generó la factura. Intente nuevamente desde la lista de Pedidos');
                                   
-                                    document.getElementById('btnEntregaCancelar').click();
-                                    $("#ModalFinalizarPedido").modal('hide');                                                          
+                                    //document.getElementById('btnEntregaCancelar').click();
+                                    //$("#ModalFinalizarPedido").modal('hide');                                                          
                                     //actualiza la ubicación del empleado
                                     classEmpleados.updateMyLocation();            
                                     //actualiza la última venta del cliente
@@ -1692,29 +1677,9 @@ async function fcnFinalizarPedido(){
                                 
                             }
                         }, (error) => {
-                            console.log(error);
-                            setLog(`<label class="text-info">Ha ocurrido un error y no se pudo enviar, se intentará guardar en el teléfono</label>`,'rootWait');
-                                                                
-                            insertVenta(datospedido)
-                            .then(async()=>{
-                                document.getElementById('btnEntregaCancelar').click();
-                                //actualiza la ubicación del empleado
-                                await classEmpleados.updateMyLocation();
-                                //actualiza la última venta del cliente
-                                apigen.updateClientesLastSale(nit,'VENTA');
-                                //elimina el temp ventas asociado al empleado
-                                deleteTempVenta(GlobalUsuario)                                                                                                               
-                                funciones.showToast('El pedido será guardado localmente, recuerde enviarlo');
-                                //prepara todo para un nuevo pedido
-                                fcnNuevoPedido();                                                    
-                                hideWaitForm();
-                            })
-                            .catch(()=>{
-                                hideWaitForm();
                                 document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-paper-plane mr-1"></i>Solicitar Factura';
                                 document.getElementById('btnFinalizarPedido').disabled = false;
                                 funciones.AvisoError('No se pudo guardar este pedido')
-                            }) 
                         });        
 
                     
@@ -1728,24 +1693,7 @@ async function fcnFinalizarPedido(){
         })
         .catch(()=>{
                                             
-                setLog(`<label class="text-info">No se logró Enviar este pedido, se intentará guardarlo en el teléfono</label>`,'rootWait');
-                $('#modalWait').modal('show');
-                                                                                
-                insertVenta(datospedido)
-                .then(async()=>{
-                    hideWaitForm();
-                    document.getElementById('btnEntregaCancelar').click();                                                                                       
-                    //actualiza la ubicación del empleado
-                    await classEmpleados.updateMyLocation();
-                    //actualiza la última venta del cliente
-                    apigen.updateClientesLastSale(nit,'VENTA');
-                    //elimina el temp ventas asociado al empleado
-                    deleteTempVenta(GlobalUsuario)
-                    funciones.showToast('El pedido será guardado localmente, recuerde enviarlo');
-                    //prepara todo para un nuevo pedido
-                    fcnNuevoPedido();
-                
-                })                    
+                             
         })
 
     })
