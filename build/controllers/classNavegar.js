@@ -287,8 +287,8 @@ let classNavegar = {
                     await classEmpleados.updateMyLocation();
 
                     //classNavegar.ventasMapaClientes();
-                    classNavegar.inicioVendedorListado();
-                  
+                    //classNavegar.inicioVendedorListado();
+                    classNavegar.ventas('0','CONSUMIDOR FINAL','CIUDAD','CF');
              
     },
     inicioVendedorListado :async ()=>{

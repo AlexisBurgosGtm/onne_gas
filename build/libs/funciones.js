@@ -699,8 +699,8 @@ let funciones = {
             let json = response.data;
             console.log(response.data);
             
-            //document.getElementById(idCliente).value = json.descripcion;
-            //document.getElementById(idDireccion).value = json.direcciones.direccion;    
+            document.getElementById(idCliente).value = json.descripcion;
+            document.getElementById(idDireccion).value = json.direcciones.direccion;    
 
             resolve(json);
         }, (error) => {

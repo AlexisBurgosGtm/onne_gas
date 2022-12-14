@@ -69,6 +69,9 @@ let GlobalSelectedSt = 'O';
 let GlobalSelectedCoddoc = '';
 let GlobalSelectedCorrelativo = '';
 
+let GlobalSelectedCodBomba = '';
+let GlobalSelectedDesBomba = '';
+
 let GlobalSelectedApp = '';
 
 let GlobalSistema = 'ISC';

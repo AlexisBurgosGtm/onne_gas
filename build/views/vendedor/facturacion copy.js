@@ -1,65 +1,5 @@
 function getView(){
     let view = {
-        body: ()=>{
-            return `
-            <div class="col-12 p-0 shadow bg-white card-rounded">
-                <div class="tab-content" id="myTabHomeContent">
-                    <div class="tab-pane fade show active" id="bombas" role="tabpanel" aria-labelledby="bombas-tab">
-                        ${ view.vista_bombas() }
-                    </div>
-                    <div class="tab-pane fade" id="pedido" role="tabpanel" aria-labelledby="pedido-tab">
-                        ${view.vista_productos()} 
-                    </div>
-                    <div class="tab-pane fade" id="cantidad" role="tabpanel" aria-labelledby="cantidad-tab">
-                        ${view.vista_cantidad()} 
-                    </div>
-                    <div class="tab-pane fade" id="cobrar" role="tabpanel" aria-labelledby="cobrar-tab">
-                        ${view.vista_finalizar()}  
-                    </div>
-                    <div class="tab-pane fade" id="det_pedido" role="tabpanel" aria-labelledby="cobrar-tab">
-                        ${ view.encabezadoClienteDocumento() 
-                            + view.gridTempVenta()
-                            + view.modalBusquedaCliente() 
-                            + view.modalNuevoCliente() 
-                        }
-
-                    </div>
-                </div>
-
-                <ul class="nav nav-tabs hidden" id="myTabHome" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active negrita text-success" id="tab-bombas" data-toggle="tab" href="#bombas" role="tab" aria-controls="profile" aria-selected="false">
-                            <i class="fal fa-list"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link negrita text-danger" id="tab-pedido" data-toggle="tab" href="#pedido" role="tab" aria-controls="home" aria-selected="true">
-                            <i class="fal fa-comments"></i></a>
-                    </li> 
-                    <li class="nav-item">
-                        <a class="nav-link negrita text-danger" id="tab-cantidad" data-toggle="tab" href="#cantidad" role="tab" aria-controls="home" aria-selected="true">
-                            <i class="fal fa-comments"></i></a>
-                    </li> 
-                    <li class="nav-item">
-                        <a class="nav-link negrita text-info" id="tab-cobrar" data-toggle="tab" href="#cobrar" role="tab" aria-controls="home" aria-selected="true">
-                            <i class="fal fa-edit"></i></a>
-                    </li>
-                                                
-                </ul>
-
-            </div>
-            `
-        },
-        vista_bombas:()=>{
-            return `
-            <h3 class="negrita text-danger">Seleccione una Bomba</h3>
-            <hr class="solid">
-            <div class="table-responsive p-4" id="tblBombas">
-
-
-            </div>
-           
-            `
-        },
         encabezadoClienteDocumento :()=>{
             return `
         <div class="row">
@@ -151,7 +91,7 @@ function getView(){
                         
                         <div class="table-responsive border-top-rounded border-bottom-rounded shadow">
                             <table class="table table-hover table-striped"><!--mt-5-->
-                                <thead class="bg-danger text-white">
+                                <thead class="bg-secondary text-white">
                                     <tr>
                                         <th class="">Producto</th>
                                         <th class="">Subtotal</th>
@@ -163,21 +103,164 @@ function getView(){
                     </div>
                     <div>
 
+                        <button class="btn btn-xl btn-secondary btn-bottom-ml btn-circle hand shadow" id="btnCambiarCliente">
+                            <i class="fal fa-user"></i>
+                        </button>
+                    
+                        <button class="btn btn-circle btn-xl btn-success shadow btn-bottom-mr hand" id="btnAgregarProd">
+                            <i class="fal fa-search"></i>
+                        </button>
 
-                        <button class="btn btn-danger btn-xl btn-circle btn-bottom-mr shadow hand" id="btnCobrar">
+                        <button class="btn btn-danger btn-xl btn-circle btn-bottom-r shadow hand" id="btnCobrar">
                             <i class="fal fa-save"></i>
                         </button>
-
-                        <button class="btn btn-circle btn-xl btn-success btn-bottom-r  shadow hand" id="btnAgregarProd">
-                            <i class="fal fa-plus"></i>
-                        </button>
-
-                       
 
                     </div>
                 </div>
                 
                 <div id="containerModalesVentas"></div>
+
+            </div>
+        </div>  
+            `
+        },
+        gridTempVentaModalBusquedaProductos :()=>{
+            return `
+        <div class="row">
+            <div id="panel-2" class="panel col-12">
+
+
+                <div class="panel-hdr">
+                    <h2 id="txtTotalVenta" class="text-danger"></h2>
+                    <div class="panel-toolbar">
+                                               
+                        <button class="btn btn-warning" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen">
+                            <i class="fal fa-angle-double-up"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-container show">
+                    <div class="panel-content">
+                        <div class="col-sm-12 col-md-8 col-lg-8 col-xl-8">
+                            <div class="input-group">
+                                <select class="form-control col-3 shadow border-info" id="cmbTipoPrecio">
+                                    <option value="P">DET</option>
+                                    <option value="C">PreB</option>
+                                    <option value="B">PreC</option>
+                                    <option value="A">MAY</option>
+                                    <option value="K">CAMBIO</option>
+                                </select>
+                                <input id="txtBusqueda" type="text" ref="txtBusqueda" class="form-control col-7  shadow border-info" placeholder="Buscar código o descripción..." aria-label="" aria-describedby="button-addon4" />
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-info waves-effect waves-themed shadow" type="button" id="btnBuscarProducto">
+                                        <i class="fal fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped"><!--mt-5-->
+                                <thead>
+                                    <tr>
+                                        <th class="border-top-0 table-scale-border-bottom fw-700">Producto</th>
+                                        <th class="text-right border-top-0 table-scale-border-bottom fw-700">Medida</th>
+                                        <th class="text-center border-top-0 table-scale-border-bottom fw-700">Cant.</th>
+                                        <th class="text-right border-top-0 table-scale-border-bottom fw-700">Subtotal</th>
+                                        <th class="text-center border-top-0 table-scale-border-bottom fw-700"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblGridTempVentas"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade modal-with-scroll" id="ModalBusqueda" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-right" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <label class="modal-title text-danger h3" id="">Búsqueda de Productos</label>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                               </button>
+                            </div>
+                            <div class="modal-body">
+                            <table class="table table-responsive table-striped table-hover">
+                                <thead class="bg-trans-gradient text-white">
+                                    <tr>
+                                        <td>Producto</td>
+                                        <td>Precio</td>                         
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblResultadoBusqueda">
+                                
+                                </tbody>
+                            </table>
+                            </div>        
+                        </div>
+                    </div>
+
+                    <div class="shortcut-menu align-left">
+                        <button class="btn btn-danger btn-md" data-dismiss="modal">
+                            <i class="fal fa-angle-double-left"></i>Atrás
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="modal fade  modal-with-scroll" id="ModalCantidadProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-right" role="document">
+                        <div class="modal-content">
+                            <br><br><br><br><br>
+                            <div class="modal-header">
+                                <label class="modal-title" id="txtDesProducto">Azucar don Justo Cabal Kilo</label>
+                            </div>
+                            <div class="modal-body" align="right">
+                                <div class="col-8">
+                                    <div class="row">
+                                        <b id="txtCodMedida">UNIDAD</b>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="input-group">  
+                                                <div class="input-group-prepend">
+                                                    <button class="btn btn-md btn-icon btn-round btn-info" id="btnCantidadDown">
+                                                        -
+                                                    </button>
+                                                </div>
+                                    
+                                                <input type="number" class="text-center form-control" id="txtCantidad" value="1">    
+                                    
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-md btn-icon btn-round btn-info" id="btnCantidadUp">
+                                                        +
+                                                    </button>    
+                                                </div>
+                                            </div>                            
+                                        </div>                              
+                                    </div>
+                                    <div class="col-12">
+                                        <label>Precio: </label>
+                                        <label class="text-success" id="txtPrecioProducto">Q500</label>
+                                        <br>
+                                        <label>Subtotal:</label>
+                                        <label class="text-danger" id="txtSubTotal">Q500</label>
+                                    </div>
+                                    <br>
+                                    <div class="">
+                                        <button type="button" class="btn btn-outline-secondary btn-round" data-dismiss="modal" id="btnCancelarModalProducto">
+                                            <i class="fal fa-ban"></i>Cancelar
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-round" id="btnAgregarProducto">
+                                            <i class="fal fa-check"></i>Agregar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>  
@@ -382,17 +465,19 @@ function getView(){
             </div>
             `
         },
-        vista_finalizar :()=>{
+        modalTerminar :()=>{
             return `
-               
-                    <div class="card card-rounded shadow p-2">
-                        <div class="card-body">
-                            <div class="row">
+                <div class="modal fade" id="ModalFinalizarPedido" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
                                 <label class="modal-title text-danger h3" id="">Finalización del Pedido</label>
-                                
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                                </button>
                             </div>
                 
-                            <div class="row">
+                            <div class="modal-body shadow">
                                     <div class="">            
                                         
                                         <h4 class="negrita text-danger">Datos de Facturación</h4>
@@ -401,38 +486,36 @@ function getView(){
                                             <label>Fecha de Facturación:</label>
                                             <input type="date" class="form-control bg-subtlelight pl-4 text-sm" id="txtFecha">
                                         </div>
-                                       
+                                        
                                         <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <label>Código:</label>
-                                                        <input id="txtNit" type="text" class="form-control" disabled="true">
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <label>Forma de Pago:</label>
-                                                        <select id="cmbEntregaConcre" class="form-control">
-                                                            <option value="CREDITO">CREDITO</option>
-                                                            <option value="CONTADO">CONTADO</option>
-                                                        </select>
-                                                    </div>
+                                            <label>Forma de Pago:</label>
+                                            <select id="cmbEntregaConcre" class="form-control">
+                                                <option value="CREDITO">CREDITO</option>
+                                                <option value="CONTADO">CONTADO</option>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                           
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <label>Código:</label>
+                                                    <input id="txtNit" type="text" class="form-control" disabled="true" />
                                                 </div>
+                                                <div class="col-6">
+                                                    <label>NIT:</label>
+                                                    <input id="txtNitDocumento" type="text" class="form-control" disabled="true" />
+                                                </div>
+                                            </div>
                                         </div>
-
-
-                                        <div class="form-group">
-                                             <label>NIT:</label>
-                                            <input id="txtNitDocumento" type="text" class="form-control">    
-                                        </div>
-
-                                       
                                         <div class="form-group">
                                             <label>Nombre:</label>
-                                            <input class="form-control" id="txtNombre" placeholder="Nombre de cliente..">
+                                            <input class="form-control" id="txtNombre" placeholder="Nombre de cliente.." disabled="true" >
                                         </div>
-
                                         <div class="form-group">
                                             <label>Dirección:</label>
-                                            <input class="form-control" id="txtDireccion" placeholder="Dirección cliente">
+                                            <input class="form-control" id="txtDireccion" placeholder="Dirección cliente" disabled="true" >
                                         </div>
                                         
                                         <hr class="solid">
@@ -456,104 +539,104 @@ function getView(){
                                             
                                         </div>
 
-
-                                        <div class="input-group hidden">   
+                                        <div class="input-group hidden">
+                                                
                                             <div class="input-group-prepend">
                                                 <button class="btn btn-info waves-effect waves-themed hidden" type="button" id="btnBusquedaClientes">
                                                     <i class="fal fa-search"></i>
                                                 </button>
+                                                
                                                 <button class="btn btn-success waves-effect waves-themed hidden" id="btnNuevoCliente">
                                                     +
                                                 </button>
                                             </div>
+                                            
                                         </div>
+
                                         <div class="form-group hidden">
                                             <label>Observaciones</label>
                                             <textarea rows="4" cols="80" class="form-control" id="txtEntregaObs" placeholder="Escriba aqui sus observaciones..."></textarea>
-                                        </div>                                                               
+                                        </div>                                                              
+                                            
                                     </div>
+
                                     <div class="row">
                                         <label class="text-white" id="lbDocLat">0</label>
                                         <label class="text-white" id="lbDocLong">0</label class="text-white">
                                     </div>
+                                    
                                     <br>
             
+                                   
                             
-                            </div>            
+                            </div>
+                        
                         </div>
                     </div>
-                `
+                </div>`
         },
-        vista_productos :()=>{
+        modalCantidadProducto:()=>{
             return `
-            <h3 class="negrita text-danger">Seleccione un Producto</h3>
-            <hr class="solid">
-            <div class="table-responsive p-4" id="tblProductos"></div>
-
-            <button class="btn btn-circle btn-xl btn-secondary btn-bottom-r  shadow hand" id="btnAtrasProductos">
-                <i class="fal fa-arrow-left"></i>
-            </button>  
-            `
-        },
-        vista_cantidad:()=>{
-            return `
-            <div class="card card-rounded shadow p-4">                   
-                <div class="card-body">
-
-                    <h3 class="text-info" id="txtDesProducto">GASOLINA REGULAR</h3>
-                    
-                    <hr class="solid">
-        
-                    <div class="row">
-                        <b id="txtCodMedida">UNIDAD</b>
-                    </div>
+            <div class="modal fade" id="ModalCantidadProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-right" role="document">
+                    <div class="modal-content">
+                        <br><br><br><br><br>
+                        <div class="modal-header">
+                            <label class="modal-title" id="txtDesProducto">Azucar don Justo Cabal Kilo</label>
+                        </div>
+                        <div class="modal-body" align="right">
+                            <div class="col-8">
+                                <div class="row">
+                                    <b id="txtCodMedida">UNIDAD</b>
+                                </div>
                                 
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <button class="btn btn-md btn-icon btn-round btn-info" id="btnCantidadDown">
-                                        -
-                                    </button>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="input-group">
+                                
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-md btn-icon btn-round btn-info" id="btnCantidadDown">
+                                                    -
+                                                </button>
+                                            </div>
+                                
+                                            <input type="number" class="text-center form-control" id="txtCantidad" value="1">    
+                                
+                                            <div class="input-group-append">
+                                                <button class="btn btn-md btn-icon btn-round btn-info" id="btnCantidadUp">
+                                                    +
+                                                </button>    
+                                            </div>
+                                        </div>                            
+                                    </div>                              
                                 </div>
-                                <input type="number" class="text-center form-control" id="txtCantidad" value="1">                           
-                                <div class="input-group-append">
-                                    <button class="btn btn-md btn-icon btn-round btn-info" id="btnCantidadUp">
-                                        +
-                                    </button>    
+
+                                <div class="col-12">
+                                    <label>Precio: </label>
+                                    <label class="text-success" id="txtPrecioProducto">Q500</label>
+                                    <br>
+                                    <label>Subtotal:</label>
+                                    <label class="text-danger" id="txtSubTotal">Q500</label>
                                 </div>
-                            </div>                            
-                        </div>                              
-                    </div>
-
-                    <div class="form-group">
-                        <label>Precio Q: </label>
-                        <h5 class="text-success negrita" id="txtPrecioProducto">0</h5>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label>Subtotal:</label>
-                        <input type="text" class="negrita form-control text-danger" id="txtSubTotal" value="0">
-                    </div>
-                 
-                    <br>
-                    <div class="row">
-                        <div class="col-6">
-                            <button type="button" class="btn btn-secondary btn-circle btn-xl hand shadow" id="btnCancelarModalProducto">
-                                <i class="fal fa-arrow-left"></i>
-                            </button>
+                                <br>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-outline-secondary btn-round" data-dismiss="modal" id="btnCancelarModalProducto">
+                                            <i class="fal fa-ban"></i>Cancelar
+                                        </button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-primary btn-round" id="btnAgregarProducto">
+                                            <i class="fal fa-check"></i>Agregar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-6">
-                            <button type="button" class="btn btn-info btn-circle shadow btn-xl hand" id="btnAgregarProducto">
-                                <i class="fal fa-check"></i>
-                            </button>
-                        </div>
-                    </div>
 
-                           
+                    </div>
                 </div>
             </div>
-             
             `
         },
         modalCambiarCantidadProducto :()=>{
@@ -612,11 +695,21 @@ function getView(){
     }
 
     //+ view.cajabusquedaproducto()  antes de gridtempventas
-    root.innerHTML = view.body();
-                
+    root.innerHTML = view.encabezadoClienteDocumento() 
+                + view.gridTempVenta() 
+                //+ view.btnCobrar() 
+                //+ view.modalBusquedaProductos() 
+                //+ view.modalCantidadProducto()
+                + view.modalBusquedaCliente() 
+                //+ view.modalCobro() 
+                + view.modalNuevoCliente() 
+                + view.modalTerminar(); 
+                //+ view.modalCantidadCalculadora();
 
     let containerModalesVentas = document.getElementById('containerModalesVentas');
-    containerModalesVentas.innerHTML = view.modalBusquedaProductos() + view.modalCambiarCantidadProducto();
+    containerModalesVentas.innerHTML = view.modalBusquedaProductos() 
+                                        + view.modalCantidadProducto()
+                                        + view.modalCambiarCantidadProducto();
 
 };
 
@@ -627,27 +720,25 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
     getView();
 
 
-    CargarGridBombas();
-
-
-
     let lbNomClien = document.getElementById('lbNomClien');
     lbNomClien.innerText = `${nombre} // ${direccion}`;
     
-   
+    document.getElementById('btnCambiarCliente').addEventListener('click',()=>{
+        classNavegar.inicioVendedor();
+    })
 
 
     let txtFecha = document.getElementById('txtFecha');txtFecha.value = funciones.getFecha();
     let txtEntregaFecha = funciones.getFecha();// document.getElementById('txtEntregaFecha');txtEntregaFecha.value = funciones.getFecha();
 
     // listener para el nit
-    let txtNit = document.getElementById('txtNitDocumento');
+    let txtNit = document.getElementById('txtNit');
     txtNit.addEventListener('keydown',(e)=>{
         if(e.code=='Enter'){
-            funciones.GetDataNit('txtNitDocumento','txtNombre','txtDireccion');    
+            fcnBuscarCliente('txtNit','txtNombre','txtDireccion');    
         }
         if(e.code=='NumpadEnter'){
-            funciones.GetDataNit('txttxtNitDocumentoNit','txtNombre','txtDireccion');    
+            fcnBuscarCliente('txtNit','txtNombre','txtDireccion');    
         }
     });
 
@@ -680,15 +771,25 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
            if(txtNit.value==''){
                funciones.AvisoError('Especifique el cliente a quien se carga la venta');
            }else{
-               funciones.ObtenerUbicacion('lbDocLat','lbDocLong');
-                $('#ModalFinalizarPedido').modal('show');   
-                                
+               funciones.ObtenerUbicacion('lbDocLat','lbDocLong')
+                switch (GlobalTipoCobro) {
+                    case 'COBRO':
+                    
+                        break;
+                    case 'TERMINAR':
+                        $('#ModalFinalizarPedido').modal('show');   
+                        break;
+            
+                    default:
+                        break;
+                }                 
            }
        }
        
     });
 
     let cmbCoddoc = document.getElementById('cmbCoddoc');
+    //classTipoDocumentos.comboboxTipodoc('PED','cmbCoddoc');
     cmbCoddoc.value = GlobalCoddoc;
 
     cmbCoddoc.addEventListener('change',async ()=>{
@@ -715,10 +816,51 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
 
     });
 
- 
-   
+    let btnBusquedaClientes = document.getElementById('btnBusquedaClientes');
+    btnBusquedaClientes.addEventListener('click',()=>{
+        $('#ModalBusquedaCliente').modal('show');
+    });
+    
+    let txtBusquedaCliente = document.getElementById('txtBusquedaCliente');
+    txtBusquedaCliente.addEventListener('keyup',(e)=>{
+        if(e.code=='Enter'){
+            fcnBusquedaCliente('txtBusquedaCliente','tblResultadoBusquedaCliente');
+        }
+        if(e.code=='NumpadEnter'){
+            fcnBusquedaCliente('txtBusquedaCliente','tblResultadoBusquedaCliente');
+        }
+    });
 
- 
+    document.getElementById('btnBuscarCliente').addEventListener('click',()=>{
+        fcnBusquedaCliente('txtBusquedaCliente','tblResultadoBusquedaCliente');
+    });
+    document.getElementById('btnNuevoCliente').addEventListener('click',()=>{
+        //$('#ModalNuevoCliente').modal('show');
+        if(txtNit.value!==''){
+            fcnBuscarCliente('txtNit','txtNombre','txtDireccion');
+        }else{
+            funciones.AvisoError('Escriba el NIT o código de cliente para comprobar');
+        };
+        
+    })
+
+     
+    // EVENTOS DE LOS BOTONES
+    document.body.addEventListener('keyup',(e)=>{
+        if(GlobalSelectedForm=='VENTAS'){
+            switch (e.keyCode) {
+                case 118: //f7
+                    btnCobrar.click();
+                    break;
+                case 113: //f2
+                    btnBusquedaClientes.click();
+                    //createNotification('hola mundo');
+                default:
+                    break;
+            }    
+        }
+    });
+
     // carga el grid
    
     
@@ -746,127 +888,6 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
     document.getElementById('btnAgregarProd').addEventListener('click',()=>{
         $('#ModalBusqueda').modal('show');
     });
-
-    document.getElementById('btnAtrasProductos').addEventListener('click',()=>{
-        document.getElementById('tab-bombas').click();        
-    });
-
-    document.getElementById('btnCancelarModalProducto').addEventListener('click',()=>{
-        document.getElementById('tab-pedido').click();
-    });
-
-
-    funciones.slideAnimationTabs();
-
-};
-
-function CargarGridBombas(){
-    let container = document.getElementById('tblBombas');
-
-    let strData = '';
-
-    BOMBAS.map((r)=>{
-        strData += `
-        
-        <div class="card card-rounded shadow bg-danger text-white p-2 hand" onclick="getCodBomba('${r.codigo}','${r.descripcion}')">
-            <div class="card-body">
-                <div class="row">
-                    <h2 class="text-warning negrita">${r.descripcion}</h2>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <small class="negrita text-white">${r.codigo}</small>
-                    </div>
-                    <div class="col-6 text-right">
-                        <img src="./img/bomba.png" width="50" height="50">
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
-        `
-    })
-
-   
-
-    container.innerHTML = strData;
-
-};
-
-
-
-
-function getCodBomba(cod,des){
-        
-    GlobalSelectedCodBomba = cod;
-    GlobalSelectedDesBomba = des;
-
-    document.getElementById('tab-pedido').click();
-
-    CargarGridListaProductos(cod);
-
-};
-
-
-function CargarGridListaProductos(codigo){
-    let container = document.getElementById('tblProductos');
-
-    let strData = '';
-
-    PRODUCTOS.map((r)=>{
-        strData += `
-      
-        <div class="card card-rounded shadow border-danger p-2 hand" onclick="addProducto('${r.codprod}','${r.desprod}','${r.codmedida}','${r.equivale}','${r.costo})','${r.precio}')">
-            <div class="card-body">
-                <div class="row">
-                    <h2 class="text-danger negrita">${r.desprod}</h2>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <small class="negrita">Código: ${r.codprod}</small>
-                        <br>
-                        <small class="negrita text-info">${r.codmedida} (${r.equivale})</small>
-                    </div>
-                    <div class="col-6 text-right">
-                        <h3 class="text-warning negrita">${funciones.setMoneda(r.precio,'Q')}</h3>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
-        `
-    })
-
-   
-
-    container.innerHTML = strData;
-
-};
-
-function addProducto(codprod,desprod,codmedida,equivale,costo,precio){
-
-    GlobalSelectedCodprod = codprod;
-    GlobalSelectedDesprod = desprod;
-    GlobalSelectedCodmedida = codmedida;
-    GlobalSelectedEquivale = parseInt(equivale);
-    GlobalSelectedCosto = parseFloat(costo);
-    GlobalSelectedPrecio = parseFloat(precio);
-    
-    GlobalSelectedExento = 0;
-    GlobalSelectedExistencia = 0;//parseInt(existencia);
-
-    //modal para la cantidad del producto
-    document.getElementById('txtDesProducto').innerText = desprod; //label
-    document.getElementById('txtCodMedida').innerText = codmedida; //label
-    document.getElementById('txtPrecioProducto').innerText = funciones.setMoneda(precio,'Q'); //label
-    document.getElementById('txtSubTotal').value = precio; //label    
-    document.getElementById('txtCantidad').value = 1;
-
-
-    document.getElementById('tab-cantidad').click();
-
 };
 
 function addEventsModalCambioCantidad(){
@@ -1047,7 +1068,7 @@ function getDataMedidaProducto(codprod,desprod,codmedida,cantidad,equivale,total
         //modal para la cantidad del producto
         document.getElementById('txtDesProducto').innerText = desprod; //label
         document.getElementById('txtCodMedida').innerText = codmedida; //label
-        document.getElementById('txtPrecioProducto').value = funciones.setMoneda(precio,'Q'); //label
+        document.getElementById('txtPrecioProducto').innerText = funciones.setMoneda(precio,'Q'); //label
         document.getElementById('txtSubTotal').innerText = funciones.setMoneda(precio,'Q'); //label
             
         document.getElementById('txtCantidad').value = 1;
@@ -1103,9 +1124,7 @@ async function fcnAgregarProductoVenta(codprod,desprod,codmedida,cantidad,equiva
                 insertTempVentas(data)
                 .then(()=>{                    
       
-                        //$('#ModalCantidadProducto').modal('hide') //MARCADOR
-                        document.getElementById('tab-pedido').click();
-
+                        $('#ModalCantidadProducto').modal('hide') //MARCADOR
                         funciones.showToast('Agregado: ' + desprod);
                         
                         fcnCargarGridTempVentas('tblGridTempVentas');
@@ -1269,16 +1288,6 @@ async function fcnCambiarCantidad(id,cantidad,codprod, existencia,precio){
 
 //CLIENTE
 async function fcnBuscarCliente(idNit,idNombre,idDireccion){
-
-    
-    
-    document.getElementById(idNit);
-    document.getElementById(idNombre);
-    document.getElementById(idDireccion);
-
-
-
-
     return;
 
     let nit = document.getElementById(idNit);
@@ -1503,7 +1512,15 @@ async function fcnCargarComboTipoPrecio(){
 //FINALIZAR PEDIDO
 async function fcnFinalizarPedido(){
     
- 
+    /* 
+    if(Number(GlobalTotalDocumento)<Number(GlobalVentaMinima)){
+        funciones.AvisoError('Pedido menor al mínimo de venta');
+        try {
+            funciones.hablar('Advertencia. Este pedido es menor al mínimo de venta permitido');    
+        } catch (error) {          
+        }      
+    };
+    */
     fcnCargarGridTempVentas('tblGridTempVentas');
 
 
