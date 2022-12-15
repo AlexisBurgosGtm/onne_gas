@@ -827,7 +827,7 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
 
     });
 
-    document.getElementById('txtSubTotal').addEventListener('click'),()=>{
+    document.getElementById('txtSubTotal').addEventListener('click',()=>{
         document.getElementById('txtSubTotal').value = '';
     });
 
