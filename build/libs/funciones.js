@@ -363,7 +363,7 @@ let funciones = {
    
     let str = ` 
             <dte:Item BienOServicio="B" NumeroLinea="${numerolinea}">
-            <dte:Cantidad>${cantidad}</dte:Cantidad>
+            <dte:Cantidad>${cantidad.toFixed(2)}</dte:Cantidad>
             <dte:UnidadMedida>${codmedida.substring(0,3)}</dte:UnidadMedida>
             <dte:Descripcion>${descripcion}</dte:Descripcion>
             <dte:PrecioUnitario>${precioun}</dte:PrecioUnitario>

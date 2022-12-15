@@ -884,7 +884,7 @@ router.post('/reportemarcasmes',async(req,res)=>{
 // INSERTA UN PEDIDO EN LAS TABLAS DE DOCUMENTOS Y DOCPRODUCTOS
 router.post("/insertventa", async (req,res)=>{
     
-    const {jsondocproductos,codsucursal,empnit,anio,mes,dia,coddoc,correl,fecha,fechaentrega,formaentrega,codcliente,nomclie,codbodega,totalcosto,totalprecio,nitclie,dirclie,obs,direntrega,usuario,codven,lat,long,hora,nitdoc,fecha_operacion} = req.body;
+    const {jsondocproductos,codsucursal,codembarque,empnit,anio,mes,dia,coddoc,correl,fecha,fechaentrega,formaentrega,codcliente,nomclie,codbodega,totalcosto,totalprecio,nitclie,dirclie,obs,direntrega,usuario,codven,lat,long,hora,nitdoc,fecha_operacion} = req.body;
   
     let app = codsucursal;
   
@@ -963,12 +963,36 @@ router.post("/insertventa", async (req,res)=>{
                 CODVENEMP,
                 DOC_TOTCOSDOL, DOC_TOTCOSINVDOL, CODUNIDAD,
                 TOTCOMBUSTIBLE, DOC_CODCONTRA, DOC_NUMCONTRA, INTERES, ABONOINTERES,
-                SALDOINTERES, NUMEROCORTE, DOC_PORLOCAL, DOC_NUMORDEN, DOC_FENTREGA,
-                DOC_INTERESADO, DOC_RECIBE, NUMEROROLLO, COD_CENTRO, GENCUOTA,
-                DOC_PORINGUAT, DOC_INGUATEXENTO, DOC_TIPOTRANIVA, DOC_PORTIMBREPRE, DOC_TIMBREPRENSA,
-                ABONOSANTICIPO, SALDOANTICIPO, DOC_PRODEXENTO, PUNTOSGANADOS, PUNTOSUSADOS,
-                APL_ANTICIPO, COD_DEPARTA, FIRMAELECTRONICA, DOC_CODDOCRETENCION, DOC_SERIERETENCION,
-                DOC_NUMRETENCION, FIRMAISC, ISCENVIADO, LAT, LONG, CODSUCURSAL, FECHA_OPERACION
+                SALDOINTERES, NUMEROCORTE, DOC_PORLOCAL, 
+                DOC_NUMORDEN, 
+                DOC_FENTREGA,
+                DOC_INTERESADO, 
+                DOC_RECIBE, 
+                NUMEROROLLO, 
+                COD_CENTRO, 
+                GENCUOTA,
+                DOC_PORINGUAT, 
+                DOC_INGUATEXENTO, 
+                DOC_TIPOTRANIVA, 
+                DOC_PORTIMBREPRE, 
+                DOC_TIMBREPRENSA,
+                ABONOSANTICIPO, 
+                SALDOANTICIPO, 
+                DOC_PRODEXENTO, 
+                PUNTOSGANADOS, 
+                PUNTOSUSADOS,
+                APL_ANTICIPO, 
+                COD_DEPARTA, 
+                FIRMAELECTRONICA, 
+                DOC_CODDOCRETENCION, 
+                DOC_SERIERETENCION,
+                DOC_NUMRETENCION, 
+                FIRMAISC, 
+                ISCENVIADO, 
+                LAT, 
+                LONG, 
+                CODSUCURSAL, 
+                FECHA_OPERACION
                 ) 
                 VALUES (
                 '${empnit}', ${anio}, ${mes}, '${coddoc}', '${correlativo}',
@@ -993,12 +1017,36 @@ router.post("/insertventa", async (req,res)=>{
                 0,
                 0, 0, '',
                 0, '', '', 0, 0, 
-                0, 0, 0, '','NO',
-                '', '', 0, '', '',
-                0, 'N', 'C', 0, 0,
-                0, 0, 0, 0, 0,
-                '', '', '', '', '',
-                '', '', 0, ${lat},${long},'${app}','${fecha_operacion}'
+                0, 0, 0, 
+                '${codembarque}',
+                'NO',
+                '', 
+                '', 
+                0, 
+                '', 
+                '',
+                0, 
+                'N', 
+                'C', 
+                0, 
+                0,
+                0, 
+                0, 
+                0, 
+                0, 
+                0,
+                '', 
+                '', 
+                '', 
+                '', 
+                '',
+                '', 
+                '', 
+                0, 
+                ${lat},
+                ${long},
+                '${app}',
+                '${fecha_operacion}'
                 );`
                    
                 qrycorrelativo =`   UPDATE ME_TIPODOCUMENTOS 

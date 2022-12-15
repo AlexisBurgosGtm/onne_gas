@@ -67,7 +67,7 @@ function getView(){
 
                             <div class="form-group" align="left">  
                               
-                                <small class="negrita text-secondary">Activity Log v1.2:</small>
+                                <small class="negrita text-secondary">Activity Log v1.3:</small>
                                 <br>
                                 <small class="text-secondary">- Initial load</small>
                                
