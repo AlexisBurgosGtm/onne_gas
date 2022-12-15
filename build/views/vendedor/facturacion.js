@@ -454,7 +454,7 @@ function getView(){
                 
                                             <div class="col-5">
                                                 <button class="btn btn-info btn-lg btn-pills btn-block waves-effect waves-themed" id="btnFinalizarPedido">
-                                                    <i class="fal fa-paper-plane mr-1"></i>Generar Factura
+                                                    <i class="fal fa-dollar-sign mr-1"></i>Generar Factura
                                                 </button>
                                             </div>
                                             
@@ -1628,7 +1628,7 @@ async function fcnFinalizarPedido(){
     let longdoc = document.getElementById('lbDocLong').innerText;
 
 
-    document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-paper-plane mr-1 fa-spin"></i>';
+    document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1 fa-spin"></i>';
     document.getElementById('btnFinalizarPedido').disabled = true;
 
     gettempDocproductos(GlobalUsuario)
@@ -1712,7 +1712,7 @@ async function fcnFinalizarPedido(){
                             const data = response.data;
                             if (data.rowsAffected[0]==0){
                                 
-                                    document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-paper-plane mr-1"></i>Solicitar Factura';
+                                    document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1"></i>Solicitar Factura';
                                     document.getElementById('btnFinalizarPedido').disabled = false;
 
                                     funciones.AvisoError('No se pudo guardar este pedido');
@@ -1760,14 +1760,14 @@ async function fcnFinalizarPedido(){
                                 
                             }
                         }, (error) => {
-                                document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-paper-plane mr-1"></i>Solicitar Factura';
+                                document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1"></i>Solicitar Factura';
                                 document.getElementById('btnFinalizarPedido').disabled = false;
                                 funciones.AvisoError('No se pudo guardar este pedido')
                         });        
 
                     
                 }else{
-                    document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-paper-plane mr-1"></i>Solicitar Factura';
+                    document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1"></i>Solicitar Factura';
                     document.getElementById('btnFinalizarPedido').disabled = false;
                                 
                 }
@@ -1782,7 +1782,7 @@ async function fcnFinalizarPedido(){
     })
     .catch((error)=>{
         hideWaitForm();
-        document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-paper-plane mr-1"></i>Solicitar Factura';
+        document.getElementById('btnFinalizarPedido').innerHTML = '<i class="fal fa-dollar-sign mr-1"></i>Solicitar Factura';
         document.getElementById('btnFinalizarPedido').disabled = false;
         funciones.AvisoError('No pude crear la tabla de productos del pedido ' + error);
     })
