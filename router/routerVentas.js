@@ -561,11 +561,11 @@ router.post("/listapedidos", async(req,res)=>{
     const {sucursal,codven,fecha}  = req.body;
     
     let qry = '';
-    qry = `SELECT  ME_Clientes.NITFACTURA AS NIT, 
+    qry = `SELECT  ME_Documentos.DOC_NIT AS NIT, 
                     ME_Documentos.CODDOC, 
                     ME_Documentos.DOC_NUMERO AS CORRELATIVO, 
                     ME_Documentos.NITCLIE AS CODCLIE, 
-                    ME_Clientes.NOMFAC AS NEGOCIO, 
+                    ISNULL(ME_Clientes.NOMFAC,'') AS NEGOCIO, 
                     ME_Documentos.DOC_NOMREF AS NOMCLIE, 
                     ME_Documentos.DOC_DIRENTREGA AS DIRCLIE, 
                     '' AS DESMUNI, 

@@ -67,7 +67,7 @@ function getView(){
 
                             <div class="form-group" align="left">  
                               
-                                <small class="negrita text-secondary">Activity Log v1.3:</small>
+                                <small class="negrita text-secondary">Activity Log v1.5</small>
                                 <br>
                                 <small class="text-secondary">- Initial load</small>
                                
@@ -120,7 +120,8 @@ function addListeners(){
 
 
     //carga las sucursales directamente desde código
-    document.getElementById('cmbSucursal').innerHTML = '<option value="" disabled selected hidden>Selecciona una sede</option>' + funciones.getComboSucursales();
+    document.getElementById('cmbSucursal').innerHTML = funciones.getComboSucursales();
+    document.getElementById('cmbSucursal').value = GlobalCodSucursal;
 
     selectDateDownload() //carga la info inicial
     .then(()=>{

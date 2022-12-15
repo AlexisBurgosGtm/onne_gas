@@ -24,6 +24,9 @@ function getView(){
                         }
 
                     </div>
+                    <div class="tab-pane fade" id="listado" role="tabpanel" aria-labelledby="cobrar-tab">
+                            ${view.vista_listado()}  
+                    </div>
                 </div>
 
                 <ul class="nav nav-tabs hidden" id="myTabHome" role="tablist">
@@ -44,8 +47,12 @@ function getView(){
                         <a class="nav-link negrita text-info" id="tab-det-pedido" data-toggle="tab" href="#det_pedido" role="tab" aria-controls="home" aria-selected="true">
                             <i class="fal fa-edit"></i></a>
                     </li>
-                      <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link negrita text-info" id="tab-cobrar" data-toggle="tab" href="#cobrar" role="tab" aria-controls="home" aria-selected="true">
+                            <i class="fal fa-edit"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link negrita text-info" id="tab-listado" data-toggle="tab" href="#listado" role="tab" aria-controls="home" aria-selected="true">
                             <i class="fal fa-edit"></i></a>
                     </li>
                                                 
@@ -62,6 +69,10 @@ function getView(){
 
 
             </div>
+
+            <button class="btn btn-warning btn-xl btn-circle btn-bottom-mr shadow hand" id="btnListado">
+                <i class="fal fa-folder-open"></i>
+            </button>
            
             `
         },
@@ -505,6 +516,19 @@ function getView(){
                     <div class="row">
                         <b id="txtCodMedida">UNIDAD</b>
                     </div>
+
+                  
+                   
+                    <div class="form-group">
+                        <label>Importe:</label>
+                        <input type="number" class="negrita form-control text-danger bg-amarillo" style="font-size:150%" id="txtSubTotal" value="0">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label>Precio Q: </label>
+                        <h5 class="text-success negrita" id="txtPrecioProducto">0</h5>
+                    </div>
+                    <br>
                                 
                     <div class="form-group">
                         <div class="row">
@@ -524,15 +548,7 @@ function getView(){
                         </div>                              
                     </div>
 
-                    <div class="form-group">
-                        <label>Precio Q: </label>
-                        <h5 class="text-success negrita" id="txtPrecioProducto">0</h5>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label>Subtotal:</label>
-                        <input type="text" class="negrita form-control text-danger bg-amarillo" style="font-size:120%" id="txtSubTotal" value="0">
-                    </div>
+                   
                  
                     <br>
                     <div class="row">
@@ -606,6 +622,29 @@ function getView(){
                         </div>
                     </div>
                 </div>`
+        },
+        vista_listado :()=>{
+            return `
+            <h3 class="negrita text-danger">Facturas por Fecha</h3>
+            <hr class="solid">
+                    
+            <div class="form-group p-6">
+               
+                <input type="date" class="form-control" id="txtFechaListado">
+            </div>
+
+            <div class=" oculto-impresion" id="containerTotal"></div>
+                <br>
+            <div class="row card oculto-impresion">
+                <div class="table-responsive" id="tblReport">
+                
+                </div>
+            </div>
+
+            <button class="btn btn-circle btn-xl btn-secondary btn-bottom-r  shadow hand" id="btnAtrasListado">
+                <i class="fal fa-arrow-left"></i>
+            </button>  
+            `
         }
     }
 
@@ -636,6 +675,12 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
 
 
     let txtFecha = document.getElementById('txtFecha');txtFecha.value = funciones.getFecha();
+    document.getElementById('txtFechaListado').value = funciones.getFecha();
+    
+    document.getElementById('txtFechaListado').addEventListener('change',()=>{
+        cargarGridDocumentos();
+    })
+
     let txtEntregaFecha = funciones.getFecha();// document.getElementById('txtEntregaFecha');txtEntregaFecha.value = funciones.getFecha();
 
     // listener para el nit
@@ -766,6 +811,10 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
         document.getElementById('tab-det-pedido').click();
     });
 
+    document.getElementById('btnAtrasListado').addEventListener('click',()=>{
+        document.getElementById('tab-bombas').click();
+    });
+
     document.getElementById('txtSubTotal').addEventListener('keyup',()=>{
         try {
                 let subtotal = document.getElementById('txtSubTotal').value;
@@ -778,9 +827,30 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
 
     });
 
+    document.getElementById('txtSubTotal').addEventListener('click'),()=>{
+        document.getElementById('txtSubTotal').value = '';
+    });
+
+
+    document.getElementById('btnListado').addEventListener('click',()=>{
+
+        document.getElementById('tab-listado').click();
+
+        cargarGridDocumentos();
+
+
+    });
 
     funciones.slideAnimationTabs();
 
+};
+
+
+function cargarGridDocumentos(){
+
+    apigen.pedidosVendedor(GlobalCodSucursal,GlobalCodUsuario,funciones.devuelveFecha('txtFechaListado'),'tblReport','containerTotal');
+
+   
 };
 
 function CargarGridBombas(){
@@ -949,7 +1019,7 @@ function fcnIniciarModalCantidadProductos(){
 
         let _SubTotal = parseFloat(GlobalSelectedPrecio) * parseFloat(txtCantidad.value);
         //_SubTotalCosto = parseFloat(_Costo) * parseFloat(txtCantidad.value);
-        txtSubTotal.innerHTML = funciones.setMoneda(_SubTotal,'Q');
+        txtSubTotal.value = funciones.setMoneda(_SubTotal,'');
         
     })
 

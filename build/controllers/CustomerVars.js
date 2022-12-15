@@ -1,5 +1,5 @@
 let GlobalToken = '7931912-2';
-let GlobalCodSucursal = '';
+let GlobalCodSucursal = '7931912-2';
 
 let GlobalEmpnit = '7931912-2';
 let GlobalEmpNombre = 'GASOLINERA LA RUIDOSA';
