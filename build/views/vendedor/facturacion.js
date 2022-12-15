@@ -531,7 +531,7 @@ function getView(){
                     <br>
                     <div class="form-group">
                         <label>Subtotal:</label>
-                        <input type="text" class="negrita form-control text-danger" id="txtSubTotal" value="0">
+                        <input type="text" class="negrita form-control text-danger bg-amarillo" style="font-size:120%" id="txtSubTotal" value="0">
                     </div>
                  
                     <br>
@@ -766,6 +766,19 @@ async function iniciarVistaVentas(nit,nombre,direccion,nitdoc){
         document.getElementById('tab-det-pedido').click();
     });
 
+    document.getElementById('txtSubTotal').addEventListener('keyup',()=>{
+        try {
+                let subtotal = document.getElementById('txtSubTotal').value;
+                document.getElementById('txtCantidad').value = (subtotal / GlobalSelectedPrecio)
+
+        } catch (error) {
+            
+        }
+
+
+    });
+
+
     funciones.slideAnimationTabs();
 
 };
@@ -868,7 +881,7 @@ function addProducto(codprod,desprod,codmedida,equivale,costo,precio){
     //modal para la cantidad del producto
     document.getElementById('txtDesProducto').innerText = desprod; //label
     document.getElementById('txtCodMedida').innerText = codmedida; //label
-    document.getElementById('txtPrecioProducto').innerText = funciones.setMoneda(precio,'Q'); //label
+    document.getElementById('txtPrecioProducto').innerText = funciones.setMoneda(precio,''); //label
     document.getElementById('txtSubTotal').value = precio; //label    
     document.getElementById('txtCantidad').value = 1;
 
